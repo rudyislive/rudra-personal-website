@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# reset codes (temporary verification codes)
+content/reset-codes.json
+
 # vercel
 .vercel
 

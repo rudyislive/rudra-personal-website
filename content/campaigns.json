@@ -1,0 +1,42 @@
+[
+  {
+    "id": "campaign-1",
+    "title": "Q4 Product Launch Campaign",
+    "description": "Comprehensive marketing campaign for new product launch targeting tech-savvy professionals.",
+    "results": [
+      "150% increase in brand awareness",
+      "50K+ impressions",
+      "5K+ leads generated",
+      "12% conversion rate"
+    ],
+    "date": "2024-01-15",
+    "link": "https://example.com/campaign-1"
+  },
+  {
+    "id": "campaign-2",
+    "title": "Summer Social Media Campaign",
+    "description": "Engaging social media campaign focused on user-generated content and community building.",
+    "results": [
+      "200K+ reach",
+      "10K+ engagements",
+      "2K+ new followers",
+      "8% engagement rate"
+    ],
+    "date": "2024-06-01",
+    "link": "https://example.com/campaign-2"
+  },
+  {
+    "id": "campaign-3",
+    "title": "Holiday Email Marketing Campaign",
+    "description": "Multi-channel email campaign with personalized content and special offers.",
+    "results": [
+      "25% open rate",
+      "8% click-through rate",
+      "15% conversion rate",
+      "500K+ emails sent"
+    ],
+    "date": "2024-11-01",
+    "link": "https://example.com/campaign-3"
+  }
+]
+

@@ -1,0 +1,50 @@
+{
+  "name": "Rudra",
+  "title": "Digital Marketing Professional",
+  "email": "rudra@example.com",
+  "phone": "+1 (555) 123-4567",
+  "location": "Your City, Country",
+  "summary": "Experienced digital marketing professional with a passion for creating impactful campaigns and driving business growth through innovative marketing strategies.",
+  "experience": [
+    {
+      "company": "Your Company",
+      "position": "Marketing Manager",
+      "startDate": "2020",
+      "endDate": "Present",
+      "description": [
+        "Led digital marketing campaigns resulting in 150% increase in online engagement",
+        "Managed social media presence across multiple platforms",
+        "Developed and executed content marketing strategies"
+      ]
+    },
+    {
+      "company": "Previous Company",
+      "position": "Marketing Specialist",
+      "startDate": "2018",
+      "endDate": "2020",
+      "description": [
+        "Created and managed marketing campaigns",
+        "Analyzed campaign performance and optimized strategies",
+        "Collaborated with cross-functional teams"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Your University",
+      "degree": "Bachelor's Degree",
+      "field": "Marketing",
+      "startDate": "2014",
+      "endDate": "2018"
+    }
+  ],
+  "skills": [
+    "Digital Marketing",
+    "Social Media Management",
+    "Content Strategy",
+    "SEO",
+    "Analytics",
+    "Campaign Management"
+  ]
+}
+

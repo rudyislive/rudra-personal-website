@@ -1,65 +1,88 @@
-import Image from "next/image";
+import { Hero } from '@/components/ui/Hero';
+import { Section } from '@/components/ui/Section';
+import { Navigation } from '@/components/ui/Navigation';
+import { Campaigns } from '@/components/portfolio/Campaigns';
+import { ResumeSection } from '@/components/portfolio/Resume';
+import { SocialFeedWrapper } from '@/components/social/SocialFeedWrapper';
+import { CTA } from '@/components/ui/CTA';
+import { SocialLinksComponent } from '@/components/ui/SocialLinks';
+import { getResume, getCampaigns } from '@/lib/utils/content';
+import { getSocialLinks } from '@/lib/utils/social';
 
 export default function Home() {
+  const resume = getResume();
+  const campaigns = getCampaigns();
+  const socialLinks = getSocialLinks();
+  
+  // You can add your Calendly link here or in environment variables
+  const calendlyLink = process.env.NEXT_PUBLIC_CALENDLY_LINK || '';
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <>
+      <Navigation />
+      <main className="pt-16">
+        <section id="home">
+          <Hero
+            title={`Hi, I'm ${resume.name}`}
+            subtitle={resume.summary}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+            <div className="space-y-6">
+              <CTA calendlyLink={calendlyLink} email={resume.email} />
+              <div>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-3">Connect with me</p>
+                <SocialLinksComponent socialLinks={socialLinks} size="md" />
+              </div>
+            </div>
+          </Hero>
+        </section>
+
+        <Section id="portfolio" className="bg-white dark:bg-zinc-900">
+          <div className="container mx-auto max-w-6xl">
+            <h2 className="text-4xl font-bold text-center mb-12 text-zinc-900 dark:text-zinc-50">
+              Portfolio
+            </h2>
+            <Campaigns campaigns={campaigns} />
+          </div>
+        </Section>
+
+        <Section id="resume" className="bg-zinc-50 dark:bg-zinc-950">
+          <div className="container mx-auto max-w-6xl">
+            <h2 className="text-4xl font-bold text-center mb-12 text-zinc-900 dark:text-zinc-50">
+              Resume
+            </h2>
+            <ResumeSection resume={resume} />
+          </div>
+        </Section>
+
+        <Section id="social" className="bg-white dark:bg-zinc-900">
+          <div className="container mx-auto max-w-4xl">
+            <h2 className="text-4xl font-bold text-center mb-12 text-zinc-900 dark:text-zinc-50">
+              Latest Posts
+            </h2>
+            <SocialFeedWrapper />
+          </div>
+        </Section>
+
+        <Section id="contact" className="bg-gradient-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
+          <div className="container mx-auto max-w-4xl text-center">
+            <h2 className="text-4xl font-bold mb-8 text-zinc-900 dark:text-zinc-50">
+              Let's Connect
+            </h2>
+            <CTA calendlyLink={calendlyLink} email={resume.email} />
+            <div className="mt-8">
+              <p className="text-zinc-600 dark:text-zinc-400 mb-4">Follow me on social media</p>
+              <SocialLinksComponent socialLinks={socialLinks} size="lg" />
+            </div>
+          </div>
+        </Section>
       </main>
-    </div>
+
+      <footer className="bg-zinc-900 dark:bg-black text-zinc-400 py-8 text-center">
+        <div className="container mx-auto">
+          <SocialLinksComponent socialLinks={socialLinks} size="sm" variant="minimal" />
+          <p className="mt-4">&copy; {new Date().getFullYear()} {resume.name}. All rights reserved.</p>
+        </div>
+      </footer>
+    </>
   );
 }
