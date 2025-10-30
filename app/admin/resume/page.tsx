@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Resume } from '@/lib/types';
-import { FiSave, FiArrowLeft } from 'react-icons/fi';
+import { FiSave, FiArrowLeft, FiCpu, FiUpload as FiUploadIcon } from 'react-icons/fi';
 
 export default function EditResume() {
   const router = useRouter();
@@ -11,6 +11,50 @@ export default function EditResume() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
+  const [aiBusy, setAiBusy] = useState(false);
+  const [pdfName, setPdfName] = useState('');
+
+  const handleAnalyzeWithAI = async () => {
+    setAiBusy(true);
+    setMessage('Analyzing resume with AI...');
+    try {
+      const res = await fetch('/api/admin/ai/analyze', { method: 'POST', credentials: 'include' });
+      const data = await res.json();
+      if (res.ok && data.proposedResume) {
+        setResume(data.proposedResume);
+        setMessage('AI suggestions applied. Review and Save Changes to persist.');
+      } else {
+        setMessage(data.error || 'Failed to analyze resume');
+      }
+    } catch {
+      setMessage('Failed to analyze resume');
+    } finally {
+      setAiBusy(false);
+    }
+  };
+
+  const handleImportLinkedInPdf = async (file: File) => {
+    if (!file) return;
+    setPdfName(file.name);
+    setAiBusy(true);
+    setMessage('Importing LinkedIn PDF...');
+    try {
+      const form = new FormData();
+      form.append('file', file);
+      const res = await fetch('/api/admin/ai/import-pdf', { method: 'POST', body: form, credentials: 'include' });
+      const data = await res.json();
+      if (res.ok && data.proposedResume) {
+        setResume(data.proposedResume);
+        setMessage('Parsed PDF applied. Review and Save Changes to persist.');
+      } else {
+        setMessage(data.error || 'Failed to import LinkedIn PDF');
+      }
+    } catch {
+      setMessage('Failed to import LinkedIn PDF');
+    } finally {
+      setAiBusy(false);
+    }
+  };
 
   useEffect(() => {
     // Check authentication first
@@ -86,6 +130,32 @@ export default function EditResume() {
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white dark:bg-zinc-900 rounded-lg p-6 shadow-lg space-y-6">
+          {/* AI Helpers */}
+          <div className="flex flex-wrap gap-3 items-center justify-between bg-zinc-50 dark:bg-zinc-800 p-4 rounded-lg">
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={handleAnalyzeWithAI}
+                disabled={aiBusy}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg disabled:opacity-50"
+              >
+                <FiCpu /> {aiBusy ? 'Working...' : 'Analyze with AI'}
+              </button>
+              <label className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 rounded-lg cursor-pointer">
+                <FiUploadIcon /> Import LinkedIn PDF
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  className="hidden"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) handleImportLinkedInPdf(f);
+                  }}
+                />
+              </label>
+            </div>
+            {pdfName && <p className="text-xs text-zinc-500">Selected: {pdfName}</p>}
+          </div>
           {/* Personal Info */}
           <div className="space-y-4">
             <h2 className="text-xl font-semibold">Personal Information</h2>
